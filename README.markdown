@@ -36,8 +36,8 @@ Adam API Error Codes
 
 Under certain circumstances you can receive an API error code, this is what they mean. Api error means there is a problem with the feed see http://www.adam.com.au/outages_system/outages-current-page1.php for info.
 
-* 001 – Unknown/Internal error.
-* 003 – AdamAPI is currently unavailable. Please try again later.
+* 001 - Unknown/Internal error.
+* 003 - AdamAPI is currently unavailable. Please try again later.
 
  
 Bug Reports
