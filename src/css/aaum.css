@@ -30,7 +30,7 @@ body
 
 #info {
 	position: absolute;
-	width: 125px;
+	width: 127px;
 	height: 30px;
 	top: 46px;
 	font-size: 10px;
@@ -154,7 +154,8 @@ body
 	top: 42px;
 	left: 8px;
 	display: none;
-	filter: alpha(opacity=80);
+	/*filter: alpha(opacity=80);*/
+	/*z-index: 99;*/
 }
 
 #error.auth {
@@ -175,6 +176,10 @@ body
 
 #error.blank {
 	background-image: url('../img/blank.png');
+}
+
+#error.loading {
+	background-image: url('../img/loading.png');
 }
 
 #error a {
