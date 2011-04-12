@@ -42,7 +42,7 @@ var AAUM = function() {
 	var updateIntervalId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
-	var debugMode = true; //Enables exceptions to be thrown on certain errors
+	var debugMode = false; //Enables exceptions to be thrown on certain errors
 	
 	var buckets = Array(); //Array of Bucket objects
 	var ttMananger = null; //Tooltip Manager instance
@@ -232,7 +232,7 @@ var AAUM = function() {
 		
 		
 		data.quotaStartDate = Date.parse( account.children('QuotaStartDate').text() ); //Slightly reparse the date string
-		data.planName = account.children('PlanName').text();
+		data.planName = account.children('PlanName').text(); //Store plan name
 		
 		data.IPv4Address = account.find('IPv4Address').first().text(); //just get the first IPv4address should be fine for most users
 		System.Gadget.Settings.writeString('IPv4Address', data.IPv4Address);
@@ -270,7 +270,14 @@ var AAUM = function() {
 				descTxt = this.getSideText().replace("h", "") + " hours remaining"
 			}
 			
-			return { title: data.planName, desc: descTxt, colour: "white" };
+			//var titleTxt = data.planName.replace(/[0-9]*(MB|GB|TB)/g, ""); //Remove quota from plan name e.g. 250GB, 1000GB etc...
+			
+			//Change the font-size if the string is too long
+			if(titleTxt.length > 16) {
+				var titleTxt = '<span style="font-size:11px">' + titleTxt + '</span>';
+			}
+			
+			return { title: titleTxt, desc: descTxt, colour: "white" };
 		};
 		
 		//Override the default getSideText() function for the days bucket
