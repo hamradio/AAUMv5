@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+  <name>AAUMv5</name>
+  <version>5.x.x</version>
+  <author name="James Roberts, Hamradio, L. Sanderly">
+    <info url="forums.whirlpool.net.au" />
+  </author>
+  <icons>
+    <icon src="img/logo.png" />
+  </icons>
+  <copyright>
+    March 2011
+  </copyright>
+  <description>Another Adam Usage Meter - Displays Adam Internet Data Usage</description>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="aaum.html" />
+      <permissions>full</permissions>
+      <platform minPlatformVersion="0.1" />
+    </host>
+  </hosts>
+</gadget>

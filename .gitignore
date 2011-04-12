@@ -1,0 +1,7 @@
+bin
+*.diff
+*.patch
+*.bak
+*.log
+.DS_Store
+_notes

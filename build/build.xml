@@ -1,0 +1,41 @@
+<project name="AAUMv5" default="release" >
+	<property name="version" value="5.0.4"/>
+	<property name="srcDir" value="../src"/>
+	<property name="tmpDir" value="tmp"/>
+	<property name="binDir" value="../bin"/>	
+	
+	<target name="release">
+		
+		<!-- Create the temp directory and copy the source files to it -->
+		<delete dir="${tmpDir}"/>
+		<copy todir="${tmpDir}">
+    			<fileset dir="${srcDir}"/>
+  		</copy>
+		
+		<!-- Replace debug switch in source so it is set to FALSE for release -->
+		<replace file="${tmpDir}/js/AAUM.js" 
+			token="var debugMode = true" 
+			value="var debugMode = false"
+		/>
+		
+		<!-- Replace gadget manifest file version number -->		
+		<replaceregexp file="${tmpDir}/gadget.xml" flags="s"
+               		match="\&lt;version\&gt;(.*)\&lt;\/version\&gt;"
+               		replace="&lt;version&gt;${version}&lt;/version&gt;"
+		/>
+		
+		<!-- Update version.json file -->
+		<echo file="../version.json" message='{ "version": "${version}" }'/>
+		
+		<!-- Clear out /bin directory -->
+		<delete file="${binDir}/AAUMv5.gadget"/>
+		
+		<!-- Package into .gadget for distribution and place in /bin as AAUMv5.gadget, uses windows style slashes "\" -->
+		<exec dir="." executable="CABARC">
+  			<arg line="-r -p -P ${tmpDir}\ n ..\bin\AAUMv5.gadget ${tmpDir}\*"/>
+		</exec>
+		
+		<!-- Clean up -->
+		<delete dir="tmp"/>
+	</target>
+</project>

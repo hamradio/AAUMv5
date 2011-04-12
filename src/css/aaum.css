@@ -1,0 +1,199 @@
+body
+{
+    width: 130px;
+    height: 156px;
+    color: white;
+    font-family: Calibri, Arial, sans-serif;
+    font-size: 9px;
+    margin: 0;
+	padding: 0;
+	overflow:hidden;
+}
+
+/*body {
+	font-family: Tahoma, sans-serif;
+	font-size: 9px;
+	color: silver;
+	margin: 0;
+	padding: 0;
+	width: 130px;
+	height: 156px;
+	background: url('../img/back.png') no-repeat left top;
+	position: relative;
+}*/
+
+#debug {
+	display: none;
+	background: black;
+	color: white;
+}
+
+#info {
+	position: absolute;
+	width: 125px;
+	height: 30px;
+	top: 46px;
+	font-size: 10px;
+	text-align: center;
+	/* line-height: 1; */
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+
+#info h1 {
+	font-family: Calibri, sans-serif;
+	color: white;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: normal;
+	white-space: nowrap;
+	overflow: hidden;
+    text-overflow:ellipsis;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#info.blue h1 {
+	color: #40B3D9;
+}
+
+#info.orange h1 {
+	color: #FFAF36;
+}
+
+#info.green h1 {
+	color: #B3D941;
+}
+
+#info.yellow h1 {
+	color: #FFF68C;
+}
+
+#info.grey h1 {
+	color: #999;
+}
+
+#info p {
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+    font-family: Tahoma;
+    /*text-align: center;*/
+    /*line-height: 1;*/
+    color: Silver;
+}
+
+.stat {
+	width: 117px;
+	height: 0;
+	left: 7px;
+	position: absolute;
+	color: Silver;
+	top: 80px;
+	padding:0;
+}
+
+.stat .bar {
+	left: 0;
+	top: 0;
+	position: absolute;
+	display: block;
+	height: 11px;
+	width: 94px;
+	background: url('../img/fill_white.png') repeat-x left 1px;
+	margin:0;
+	padding:0;
+}
+
+.stat.fill_blue .bar {
+	background-image: url('../img/fill_blue.png');
+}
+
+.stat.fill_green .bar {
+	background-image: url('../img/fill_green.png');
+}
+
+.stat.fill_orange .bar {
+	background-image: url('../img/fill_orange.png');
+}
+
+.stat.fill_yellow .bar {
+	background-image: url('../img/fill_yellow.png');
+}
+
+.stat.fill_grey .bar {
+	background-image: url('../img/fill_grey.png');
+}
+
+.stat img {
+	/* overlays, added in script */
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 11px;
+	width: 95px;
+	margin:0;
+	padding:0;
+}
+
+.stat .summary {
+	font-family: Calibri, sans-serif;
+	top: -1px;
+	right: 0;
+	position: absolute;
+	width: 20px;
+}
+
+#error {
+	width: 114px;
+	height: 106px;
+	background: url('../img/none.png') no-repeat left top;
+	position: absolute;
+	top: 42px;
+	left: 8px;
+	display: none;
+	filter: alpha(opacity=80);
+}
+
+#error.auth {
+	background-image: url('../img/auth.png');
+}
+
+#error.no_cred {
+	background-image: url('../img/no_cred.png');
+}
+
+#error.data {
+	background-image: url('../img/data.png');
+}
+
+#error.api {
+	background-image: url('../img/api.png');
+}
+
+#error.blank {
+	background-image: url('../img/blank.png');
+}
+
+#error a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 10px;
+	letter-spacing: 1px;
+	color: white;
+}
+
+#error p {
+	font-family: Calibri, sans-serif;
+	position: absolute;
+	top: 44px;
+	width:100%;
+	text-align: center;
+	font-size: 12px;
+	letter-spacing: 1px;
+	color: white;
+}

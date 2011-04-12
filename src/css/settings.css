@@ -1,0 +1,69 @@
+body {
+	width: 220px;
+	height: 290px;
+	overflow:hidden;
+}
+
+p, label, input {
+	font-size: 12px;
+}
+
+h1 {
+	font-size: 13px;
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+p {
+	margin: 0 0 1em;
+	padding: 0;
+}
+
+#credits {
+	font-size: 9px;
+	margin: 0;
+}
+
+#credits span, #credits p {
+	font-size: 9px;
+}
+
+input {
+	width: 180px;
+}
+
+select {
+	width: 180px;
+}
+
+#copyinfo {
+	font-size: 9px;
+}
+
+.fieldset {
+  border: groove 1px;
+  background: #eee;
+  margin-top: 20px;
+  position: relative;
+  width: 195px;
+}
+
+.legend {
+  border: none;
+  left: 0.5em;
+  top: -0.6em;
+  position: absolute;
+  background: #eee;
+  font-weight: bold;
+  padding: 0 0.25em 0 0.25em;
+  font-size:11px;
+}
+
+.fieldset_wrapper .fieldset_content {
+  margin: 1em 0.5em 0.5em 0.5em;
+  padding: 5px;
+}
+
+.fieldset_content p {
+	margin:0;
+}
