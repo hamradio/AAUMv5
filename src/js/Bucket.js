@@ -54,7 +54,7 @@ function Bucket(q, u, db, t) {
 		
 		var titleTxt = this.title;
 		//Append "Usage" to title if it doesn't already contain it e.g. Download Usage or Newsgroups Usage
-		if(this.title.indexOf("Usage") == -1 && this.title.indexOf("Download") == -1 && this.title.indexOf("Data") == -1) {
+		if(this.title.indexOf(" Usage") == -1 && this.title.indexOf(" Download") == -1 && this.title.indexOf(" Data") == -1) {
 			titleTxt += " Usage";
 		}
 		

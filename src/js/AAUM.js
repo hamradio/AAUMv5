@@ -42,7 +42,7 @@ var AAUM = function() {
 	var updateIntervalId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
-	var debugMode = false; //Enables exceptions to be thrown on certain errors
+	var debugMode = true; //Enables exceptions to be thrown on certain errors
 	
 	var buckets = Array(); //Array of Bucket objects
 	var ttMananger = null; //Tooltip Manager instance
@@ -134,6 +134,8 @@ var AAUM = function() {
 	 * LOAD XML
 	*/
 	var loadXML = function() {
+		
+		displayLoading();
 		
 		jQuery.support.cors = true; // force cross-site scripting (as of jQuery 1.5)
 		
@@ -271,6 +273,10 @@ var AAUM = function() {
 			}
 			
 			//var titleTxt = data.planName.replace(/[0-9]*(MB|GB|TB)/g, ""); //Remove quota from plan name e.g. 250GB, 1000GB etc...
+			var titleTxt = data.planName;
+			
+			//Replace 'Adam' in title only if it is the first word e.g. 'AdamEzyChoice' will become 'EzyChoice' but 'EzyAdamChoice' will not be changed.
+			var titleTxt = (titleTxt.indexOf('Adam') == 0) ? titleTxt.replace('Adam', '') : titleTxt; 
 			
 			//Change the font-size if the string is too long
 			if(titleTxt.length > 16) {
@@ -328,10 +334,18 @@ var AAUM = function() {
 	}
 	
 	/*
+	 * DISPLAY LOADING
+	*/
+	//Alias for displayError
+	var displayLoading = function displayLoading() {
+		displayError('loading', false);
+	}
+	
+	/*
 	 * DISPLAY ERROR
 	*/
 	var displayError = function displayError(eClass, fatal, errorText) {
-		var $e = $('#error')
+		var $e = $('#error');
 		
 		$e.removeClass();
 		
