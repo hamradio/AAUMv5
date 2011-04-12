@@ -25,7 +25,7 @@
 		/>
 		
 		<!-- Update version.json file -->
-		<echo file="../version.json" message='{ "version": "${version}" }'/>
+		<echo file="${binDir}/version.json" message='{ "version": "${version}" }'/>
 		
 		<!-- Clear out /bin directory -->
 		<delete file="${binDir}/AAUMv5.gadget"/>
