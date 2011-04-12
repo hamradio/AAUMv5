@@ -54,7 +54,15 @@ function Bucket(q, u, db, t) {
 		
 		var rTitle = (this.title.indexOf("Usage") == -1) ? this.title + " Usage" : this.title; //Append "Usage" to title if it doesn't already contain it e.g. Download Usage or Newsgroups Usage
 		
-		return { title: rTitle, desc: this.addCommas(this.usage) + " of " + this.addCommas(this.quota) + " MB", colour: this.colour };
+		var descText = '';
+		//if it is a terabyte or larger plan then reformat the desc text
+		if(this.quota >= 1000000) {
+			var descText = this.addCommas( Math.round(this.usage / 1000) ) + " of " + this.addCommas( Math.round(this.quota / 1000) ) + " GB";
+		} else {
+			var descText = this.addCommas(this.usage) + " of " + this.addCommas(this.quota) + " MB";
+		}
+		
+		return { title: rTitle, desc: descText, colour: this.colour };
 	}
 	
 	this.addCommas = function(num) {
