@@ -52,17 +52,20 @@ function Bucket(q, u, db, t) {
 	//Returns tooltip object {title:"Download Data", desc: "123 of 123 MB", colour: "Blue"}
 	this.getTooltip = function() {
 		
-		var rTitle = (this.title.indexOf("Usage") == -1) ? this.title + " Usage" : this.title; //Append "Usage" to title if it doesn't already contain it e.g. Download Usage or Newsgroups Usage
-		
-		var descText = '';
-		//if it is a terabyte or larger plan then reformat the desc text
-		if(this.quota >= 1000000) {
-			var descText = this.addCommas( Math.round(this.usage / 1000) ) + " of " + this.addCommas( Math.round(this.quota / 1000) ) + " GB";
-		} else {
-			var descText = this.addCommas(this.usage) + " of " + this.addCommas(this.quota) + " MB";
+		var titleTxt = this.title;
+		//Append "Usage" to title if it doesn't already contain it e.g. Download Usage or Newsgroups Usage
+		if(this.title.indexOf("Usage") == -1 && this.title.indexOf("Download") == -1 && this.title.indexOf("Data") == -1) {
+			titleTxt += " Usage";
 		}
 		
-		return { title: rTitle, desc: descText, colour: this.colour };
+		var descText = this.addCommas(this.usage) + " of " + this.addCommas(this.quota) + " MB";
+		
+		//if it is a terabyte or larger plan then reformat the desc text
+		if(this.quota >= 1000000) {
+			descText = this.addCommas( Math.round(this.usage / 1000) ) + " of " + this.addCommas( Math.round(this.quota / 1000) ) + " GB";
+		}
+		
+		return { title: titleTxt, desc: descText, colour: this.colour };
 	}
 	
 	this.addCommas = function(num) {
