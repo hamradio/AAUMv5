@@ -1,5 +1,5 @@
 <project name="AAUMv5" default="release" >
-	<property name="version" value="5.0.4"/>
+	<property name="version" value="5.0.6"/>
 	<property name="srcDir" value="../src"/>
 	<property name="tmpDir" value="tmp"/>
 	<property name="binDir" value="../bin"/>	

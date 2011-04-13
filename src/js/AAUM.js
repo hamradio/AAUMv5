@@ -42,7 +42,7 @@ var AAUM = function() {
 	var updateIntervalId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
-	var debugMode = true; //Enables exceptions to be thrown on certain errors
+	var debugMode = false; //Enables exceptions to be thrown on certain errors
 	
 	var buckets = Array(); //Array of Bucket objects
 	var ttMananger = null; //Tooltip Manager instance
@@ -257,9 +257,9 @@ var AAUM = function() {
 		//Create days remaining bucket
 		//////////////////////////////
 		
-		var quotaEndDate = data.quotaStartDate.clone().addMonths(1)
+		var quotaEndDate = data.quotaStartDate.clone().addMonths(1);
 		var hoursInMonth = (quotaEndDate.getTime() - data.quotaStartDate.getTime()) / (1000*60*60);
-		var hoursUsed = (Date.today().getTime() - data.quotaStartDate.getTime()) / (1000*60*60);
+		var hoursUsed = (Date.parse('now').getTime() - data.quotaStartDate.getTime()) / (1000*60*60);
 		
 		var daysBucket = new Bucket(hoursInMonth, hoursUsed, 0, "Days");
 		
