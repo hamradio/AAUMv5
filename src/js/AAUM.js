@@ -42,7 +42,7 @@ var AAUM = function() {
 	var updateIntervalId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
-	var debugMode = false; //Enables exceptions to be thrown on certain errors
+	var debugMode = true; //Enables exceptions to be thrown on certain errors
 	
 	var buckets = Array(); //Array of Bucket objects
 	var ttMananger = null; //Tooltip Manager instance
@@ -265,11 +265,13 @@ var AAUM = function() {
 		
 		//Override the default getTooltip() function for the days bucket
 		daysBucket.getTooltip = function() {
+			
 			var descTxt;
 			if( Math.ceil((this.quota - this.usage) / 24) > 1 ) {
 				descTxt = this.getSideText().replace("d", "") + " days remaining"
 			} else {
-				descTxt = this.getSideText().replace("h", "") + " hours remaining"
+				descTxt = this.getSideText().replace("h", "");
+				descTxt = (Math.ceil(this.quota - this.usage) == 1) ? descTxt + " hour remaining" : descTxt + " hours remaining";
 			}
 			
 			//var titleTxt = data.planName.replace(/[0-9]*(MB|GB|TB)/g, ""); //Remove quota from plan name e.g. 250GB, 1000GB etc...
@@ -289,6 +291,7 @@ var AAUM = function() {
 		//Override the default getSideText() function for the days bucket
 		daysBucket.getSideText = function() {
 											 //if it is the last day then show days remaining otherwise show hours remaining
+											 
 											 if( Math.ceil((this.quota - this.usage) / 24) > 1 ) {
 											 	return Math.ceil((this.quota - this.usage) / 24) + "d";
 											 } else {
