@@ -44,23 +44,39 @@ document.onreadystatechange = function() {
 	
 	
 	if(IPv4Address === '') {
-		$('#ipaddress').html('IP Address: n/a');
+		$('#ipaddress').html('n/a');
 	} else {
-		$('#ipaddress').html('IP Address: ' + IPv4Address);
+		$('#ipaddress').html(IPv4Address);
 	}
 	
 	
 	if(ADSLInfo !== '') {
 		ADSLInfo = JSON.parse(ADSLInfo);
-		$('#sync').html('Sync (Up|Down): ' + ADSLInfo.SyncUP + ' | ' + ADSLInfo.SyncDown);
-		$('#snr').html('SNR: ' + ADSLInfo.SNRUp + ' | ' + ADSLInfo.SNRDown);
-		$('#attenuation').html('Attenuation: ' + ADSLInfo.AttenuationUp + ' | ' + ADSLInfo.AttenuationDown);
+		var imgDown = '<span class="arrow_down"></span>';
+		var imgUp = '<span class="arrow_up"></span>';
+		
+		$('#sync_down').html(ADSLInfo.SyncDown + imgDown);
+		$('#sync_up').html(ADSLInfo.SyncUP + imgUp);
+		$('#snr_down').html(ADSLInfo.SNRDown + imgDown);
+		$('#snr_up').html(ADSLInfo.SNRUp + imgUp);
+		$('#attenuation_down').html(ADSLInfo.AttenuationDown + imgDown);
+		$('#attenuation_up').html(ADSLInfo.AttenuationUp + imgUp);
+	} else {
+		$('#sync_down').html('n/a');
+		$('#sync_up').empty();
+		$('#snr_down').html('n/a');
+		$('#snr_up').empty();
+		$('#attenuation_down').html('n/a');
+		$('#attenuation_up').empty();
 	}
 	
 	
 	// Add click handler for the copy to clipboard button
 	$('#copyinfo').click(function(){
-								  	var infoString = $('#ipaddress').text() + '\n' + $('#sync').text() + '\n' + $('#snr').text() + '\n' + $('#attenuation').text();
+								  	var infoString = 'Ip Address: '+$('#ipaddress').text()+'\r\n'+
+													 'Sync (down|up): '+$('#sync_down').text()+' | '+$('#sync_up').text()+'\r\n'+
+													 'SNR: '+$('#snr_down').text()+' | '+$('#snr_up').text()+'\r\n'+
+													 'Attenuation: '+$('#attenuation_down').text()+' | '+$('#attenuation_up').text();
 								  	window.clipboardData.setData('Text', infoString);
 								  });
 };

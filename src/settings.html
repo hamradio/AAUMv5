@@ -19,16 +19,17 @@
               <div class="fieldset">
               	<div class="legend">Connection Info</div>
                 	<div class="fieldset_content">
-                		<p id="ipaddress"></p>
-            			<p id="sync"></p>
-            			<p id="snr"></p>
-            			<p id="attenuation"></p>
+                    	<table border="0" id="connection_info_table">
+                        	<tr><td class="connection_title">IP Address</td><td colspan="2" id="ipaddress"></td></tr>
+                            <tr><td class="connection_title">Sync</td><td id="sync_down"></td><td id="sync_up"></td></tr>
+                            <tr><td class="connection_title">SNR</td><td id="snr_down"></td><td id="snr_up"></td></tr>
+                            <tr><td class="connection_title">Attenuation</td><td id="attenuation_down"></td><td id="attenuation_up"></td></tr>
+                        </table>
                         <br />
                 		<p id="copyinfo"><a href="#">Copy to Clipboard</a></p>
                		</div>
               	</div>
             </div>
-            <br />
             <br />
             <span id="version"></span><br />
 			<span id="authors"></span><br />

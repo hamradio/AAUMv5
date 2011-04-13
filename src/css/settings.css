@@ -43,7 +43,7 @@ select {
 .fieldset {
   border: groove 1px;
   background: #eee;
-  margin-top: 20px;
+  margin-top: 15px;
   position: relative;
   width: 195px;
 }
@@ -66,4 +66,29 @@ select {
 
 .fieldset_content p {
 	margin:0;
+}
+
+.arrow_up {
+	width:8px;
+	height:8px;
+	padding:0;
+	background-image: url(../img/up_arrow.gif);
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align:middle;
+}
+
+.arrow_down {
+	width:8px;
+	height:8px;
+	padding:0;
+	background-image: url(../img/down_arrow.gif);
+	background-repeat: no-repeat;
+	display: inline-block;
+	vertical-align:middle;
+}
+
+.connection_title {
+	text-align:right; 
+	font-weight:bold; 
 }
