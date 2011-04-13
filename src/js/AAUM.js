@@ -169,6 +169,7 @@ var AAUM = function() {
 				}
 				
 				//error probably temporary, continue
+				window.clearInterval(updateIntervalId);
 				updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
 				
 				if(debugMode) {
