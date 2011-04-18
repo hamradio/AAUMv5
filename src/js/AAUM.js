@@ -258,6 +258,8 @@ var AAUM = function() {
 		//Create days remaining bucket
 		//////////////////////////////
 		
+		buckets = Array();
+		
 		var quotaEndDate = data.quotaStartDate.clone().addMonths(1);
 		var hoursInMonth = (quotaEndDate.getTime() - data.quotaStartDate.getTime()) / (1000*60*60);
 		var hoursUsed = (Date.parse('now').getTime() - data.quotaStartDate.getTime()) / (1000*60*60);
@@ -376,6 +378,7 @@ var AAUM = function() {
 		
 		if (!allowUpdate) {
 			window.clearInterval(updateIntervalId);
+			updateIntervalId = null;
 		}
 		if (!fromError) {
 			displayError();
@@ -392,7 +395,7 @@ var AAUM = function() {
 		
 		$('.stat').empty().remove(); //remove the buckets
 		
-		buckets = new Array();
+		buckets = null;
 		ttMananger = null;
 	}
 	

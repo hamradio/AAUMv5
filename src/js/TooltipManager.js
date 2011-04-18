@@ -65,6 +65,10 @@ function TooltipManager(tt) {
 	//Starts the TooltipManager and shows the first tooltip
 	this.start = function() {
 		
+		if(this.tooltips == null || this.tooltips.length < 1) {
+			throw new Error("TooltipManager.start(): Tooltip array empty or null");
+		}
+		
 		$('#info').hide();
 		this.showInfo(this.iterator.first());
 		$('#info').fadeIn('slow');
@@ -91,8 +95,10 @@ function TooltipManager(tt) {
 	//Stops the TooltipManager and resets the iterator and tooltips array
 	this.clear = function() {
 		this.stop();
+		
 		this.tooltips = null;
 		this.iterator = null;
+		
 		$('#info').html('').removeClass();
 	}
 	
