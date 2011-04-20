@@ -24,6 +24,7 @@ var AAUM = function() {
 		authors: "James Roberts, Hamradio, L. Sandery", //could load this from gadget manifest xml but don't want the extra overhead of doing that
 		updateIntervalPeriod: 30, // Minutes between updates.
 		settingsUI: 'settings.html',
+		flyoutFile: 'flyout.html',
 		xmlURL: 'https://members.adam.com.au/api/',
 		gadgetCheckURL: 'http://users.adam.com.au/galbraith/aaum/version.json',
 		gadgetDownloadURL: 'http://users.adam.com.au/galbraith/aaum/AAUMv5.gadget'
@@ -33,7 +34,8 @@ var AAUM = function() {
 		quotaStartDate: '',
 		planName: '',
 		IPv4Address: '',
-		ADSLInfo: ''
+		ADSLInfo: '',
+		usageGraphData: null
 	}
 	
 	var username = 'fakename'; //not required but we need to use something otherwise ajax request will fail
@@ -41,6 +43,7 @@ var AAUM = function() {
 	var accountType = 'Auto'; //Account type to load, 'Auto' is a special value which always loads first account found in the xml
 	var updateIntervalId = null;
     var updateTimemoutId = null;
+	
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
 	var debugMode = true; //Enables exceptions to be thrown on certain errors
@@ -54,6 +57,11 @@ var AAUM = function() {
 	var init = function() {
 		
 		System.Gadget.settingsUI = config.settingsUI;
+		System.Gadget.Flyout.file = config.flyoutFile;
+		
+		$('#usage_graph_link').click(function() {
+  			showFlyout();
+		});
 		
 		System.Gadget.Settings.writeString('authors', config.authors);
 		
@@ -85,6 +93,26 @@ var AAUM = function() {
 			checkNewGadgetVersion();
 		}
 		
+	}
+	
+	var showFlyout = function() {
+		
+		if (System.Gadget.Flyout.show == false){
+			try {
+				System.Gadget.Flyout.show = true;
+				
+				System.Gadget.Flyout.onShow = function() {
+					//addContentToFlyout();
+				}
+	
+				System.Gadget.Flyout.onHide = function() {
+					//gSelectedIndex = -1 ;
+				}
+			}
+			catch(e){
+				throw new Error("AAUM.showFlyout(): Error showing flyout.");
+			}
+		}
 	}
 	
 	/*
@@ -332,6 +360,25 @@ var AAUM = function() {
 		ttMananger = new TooltipManager(tooltips);
 		ttMananger.start();
 		
+		
+		//////////////////////////////
+		// Store Usage Information
+		//////////////////////////////
+		
+		data.usageGraphData = Array();
+		
+		$(account).children('DailySummary').children('Day').each( function(){
+																		   
+											 var buckets = Array();
+											 var date = Date.parse($(this).attr('date')).getTime();
+											 
+											 $(this).children('Bucket').each( function(){ 
+																						buckets.push( date, $(this).text() );
+																					   });
+											 
+											 data.usageGraphData.push(buckets);
+											 });
+		
 		//////////////////////////////
 		
 		$('#error').hide(); //hide the error div
@@ -410,8 +457,17 @@ var AAUM = function() {
 	}
 	
 	
+	/*
+	 * GET USAGE DATA
+	*/
+	var getUsageData = function() {
+		return data;
+	}
+	
+	
 	return {
     	init: init,
-		getTooltipManager: getTooltipManager
+		getTooltipManager: getTooltipManager,
+		getUsageData: getUsageData
   	};
 } ();
