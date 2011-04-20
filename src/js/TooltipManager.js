@@ -88,8 +88,8 @@ function TooltipManager(tt) {
 		if(this.tooltipIntervalId != null) {
 			window.clearInterval(this.tooltipIntervalId);
 			this.tooltipIntervalId = null;
-			$('#info').hide();
 		}
+                $('#info').hide();
 	}
 	
 	//Stops the TooltipManager and resets the iterator and tooltips array

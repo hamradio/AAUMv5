@@ -40,11 +40,12 @@ var AAUM = function() {
 	var password = ''; //the users token
 	var accountType = 'Auto'; //Account type to load, 'Auto' is a special value which always loads first account found in the xml
 	var updateIntervalId = null;
+        var updateTimemoutId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
 	var debugMode = true; //Enables exceptions to be thrown on certain errors
 	
-	var buckets = Array(); //Array of Bucket objects
+	var buckets = null; //Array of Bucket objects
 	var ttMananger = null; //Tooltip Manager instance
 	
 	/*
@@ -169,8 +170,10 @@ var AAUM = function() {
 				}
 				
 				//error probably temporary, continue
-				window.clearInterval(updateIntervalId);
-				updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
+				//window.clearInterval(updateIntervalId);
+				//updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
+                                window.clearTimeout(updateTimemoutId);
+                                updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
 				
 				if(debugMode) {
 					throw new Error("AAUM.LoadXML() Ajax Error: "+ jqxhr.status + ", "+ jqxhr.responseXML + ", "+ statusText +", "+ exceptn);
@@ -202,16 +205,17 @@ var AAUM = function() {
 			
 			return;
 		}
-		
+
+                var account;
 		
 		if (accountType == "Auto" || accountType == "First") {
-			var account = $(xml).find('Account').first();
+			account = $(xml).find('Account').first();
 		} else if (accountType == "AdamTalk") { //list the unsupported accountType's here, currently that's just AdamTalk
 			//This account type uses a very different format so it isn't supported yet... :(
 			displayError('blank', true, accountType + ' not supported :(');
 			return;
 		} else {
-			var account = $(xml).find('Account[type="'+accountType+'"]');
+			account = $(xml).find('Account[type="'+accountType+'"]');
 			
 			//The following error shouldn't happen since the account types are read from the xml directly but could be caused by a parsing error
 			if(account.length < 1) {
@@ -281,11 +285,11 @@ var AAUM = function() {
 			var titleTxt = data.planName;
 			
 			//Replace 'Adam' in title only if it is the first word e.g. 'AdamEzyChoice' will become 'EzyChoice' but 'EzyAdamChoice' will not be changed.
-			var titleTxt = (titleTxt.indexOf('Adam') == 0) ? titleTxt.replace('Adam', '') : titleTxt; 
+			titleTxt = (titleTxt.indexOf('Adam') == 0) ? titleTxt.replace('Adam', '') : titleTxt; 
 			
 			//Change the font-size if the string is too long
 			if(titleTxt.length > 16) {
-				var titleTxt = '<span style="font-size:11px">' + titleTxt + '</span>';
+				titleTxt = '<span style="font-size:11px">' + titleTxt + '</span>';
 			}
 			
 			return { title: titleTxt, desc: descTxt, colour: "white" };
@@ -335,8 +339,10 @@ var AAUM = function() {
 		$('#error').hide(); //hide the error div
 		working = true; //yay :D
 		
-		window.clearInterval(updateIntervalId);
-		updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
+		//window.clearInterval(updateIntervalId);
+		//updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
+                window.clearTimeout(updateTimemoutId);
+                updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
 	}
 	
 	/*
@@ -377,8 +383,10 @@ var AAUM = function() {
 		working = false;
 		
 		if (!allowUpdate) {
-			window.clearInterval(updateIntervalId);
-			updateIntervalId = null;
+			//window.clearInterval(updateIntervalId);
+			//updateIntervalId = null;
+                        window.clearTimeout(updateTimemoutId);
+                        updateTimemoutId = null;
 		}
 		if (!fromError) {
 			displayError();
