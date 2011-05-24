@@ -36,11 +36,11 @@ var AAUM = function() {
 		ADSLInfo: ''
 	}
 	
-	var username = 'fakename'; //not required but we need to use something other ajax request will fail
+	var username = 'fakename'; //not required but we need to use something otherwise ajax request will fail
 	var password = ''; //the users token
 	var accountType = 'Auto'; //Account type to load, 'Auto' is a special value which always loads first account found in the xml
 	var updateIntervalId = null;
-        var updateTimemoutId = null;
+    var updateTimemoutId = null;
 	
 	var working = false; //Is the AAUM working currently, has the xml successfully loaded
 	var debugMode = true; //Enables exceptions to be thrown on certain errors
@@ -170,10 +170,8 @@ var AAUM = function() {
 				}
 				
 				//error probably temporary, continue
-				//window.clearInterval(updateIntervalId);
-				//updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
-                                window.clearTimeout(updateTimemoutId);
-                                updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
+                window.clearTimeout(updateTimemoutId);
+                updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
 				
 				if(debugMode) {
 					throw new Error("AAUM.LoadXML() Ajax Error: "+ jqxhr.status + ", "+ jqxhr.responseXML + ", "+ statusText +", "+ exceptn);
@@ -206,7 +204,7 @@ var AAUM = function() {
 			return;
 		}
 
-                var account;
+        var account;
 		
 		if (accountType == "Auto" || accountType == "First") {
 			account = $(xml).find('Account').first();
@@ -339,10 +337,8 @@ var AAUM = function() {
 		$('#error').hide(); //hide the error div
 		working = true; //yay :D
 		
-		//window.clearInterval(updateIntervalId);
-		//updateIntervalId = window.setInterval(loadXML, config.updateIntervalPeriod * 60 * 1000);
-                window.clearTimeout(updateTimemoutId);
-                updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
+        window.clearTimeout(updateTimemoutId);
+        updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
 	}
 	
 	/*
@@ -383,10 +379,8 @@ var AAUM = function() {
 		working = false;
 		
 		if (!allowUpdate) {
-			//window.clearInterval(updateIntervalId);
-			//updateIntervalId = null;
-                        window.clearTimeout(updateTimemoutId);
-                        updateTimemoutId = null;
+            window.clearTimeout(updateTimemoutId);
+            updateTimemoutId = null;
 		}
 		if (!fromError) {
 			displayError();

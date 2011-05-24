@@ -11,24 +11,21 @@ function TooltipManager(tt) {
 	
 	//Displays the next tooltip in the array
 	this.next = function() {
-		var nextTT = this.iterator.next();
-		
-		var oInstance=this;
+		//var nextTT = this.iterator.next();
 		
 		//fade out existing tooltip first, then fade in new tooltip
-		$('#info').fadeOut('slow', function() {
-			oInstance.showInfo(nextTT);
-			$(this).fadeIn('slow');
-		});
+		$('#info').fadeOut('slow', $.proxy(function() {			
+			this.showInfo(this.iterator.next());
+			$('#info').css('filter', 'inherit').css('opacity', 'inherit').fadeIn('slow');
+		}, this));
 	}
 	
 	//Updates the info divs
 	this.showInfo = function(tooltip) {
 		
-		$('#info').html('').removeClass().addClass(tooltip.colour).html(
+		$('#info').empty().removeClass().addClass(tooltip.colour).html(
 			'<h1>' + tooltip.title + '</h1><p>' + tooltip.desc + '</p>'
 		);
-		
 	}
 	
 	//Forces the passed tooltip to be displayed, updates the iterator
@@ -53,6 +50,8 @@ function TooltipManager(tt) {
 			this.iterator.setIndex(ttIndex);
 			this.showInfo(this.iterator.next());
 			this.startTimer();
+			
+			$('#info').stop(true, true).show();
 		}
 	}
 	
@@ -65,22 +64,19 @@ function TooltipManager(tt) {
 	//Starts the TooltipManager and shows the first tooltip
 	this.start = function() {
 		
-		if(this.tooltips == null || this.tooltips.length < 1) {
-			throw new Error("TooltipManager.start(): Tooltip array empty or null");
-		}
-		
-		$('#info').hide();
+		$('#info').stop(true, true).hide();
 		this.showInfo(this.iterator.first());
-		$('#info').fadeIn('slow');
+		$('#info').css('filter', 'inherit').css('opacity', 'inherit').fadeIn('slow');
 		
 		this.startTimer();
 	}
 	
 	this.startTimer = function() {
-		var oInstance=this;
 		
-		window.clearInterval(this.tooltipIntervalId);
-		this.tooltipIntervalId = window.setInterval(function(){oInstance.next();}, this.tooltipIntervalPeriod * 1000);
+		if(this.tooltipIntervalId !== null) {
+			window.clearInterval(this.tooltipIntervalId);
+		}
+		this.tooltipIntervalId = window.setInterval($.proxy(this, "next"), this.tooltipIntervalPeriod * 1000);		
 	}
 	
 	//Stops the TooltipManager from showing any more tooltips and hides the current tooltip
@@ -89,7 +85,7 @@ function TooltipManager(tt) {
 			window.clearInterval(this.tooltipIntervalId);
 			this.tooltipIntervalId = null;
 		}
-                $('#info').hide();
+        $('#info').stop(true, true).hide();
 	}
 	
 	//Stops the TooltipManager and resets the iterator and tooltips array
@@ -99,7 +95,7 @@ function TooltipManager(tt) {
 		this.tooltips = null;
 		this.iterator = null;
 		
-		$('#info').html('').removeClass();
+		$('#info').empty().removeClass();
 	}
 	
 	this.tooltipIntervalPeriod = 10; // seconds between status rotations.
