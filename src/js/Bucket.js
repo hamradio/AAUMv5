@@ -29,7 +29,7 @@ function Bucket(q, u, db, t) {
 	
 	//Updates the visual appearance of the bucket
 	this.repaint = function() {
-		$('#' + this.id + ' .bar').width( Math.ceil((this.usage / this.quota) * 95) );
+		$('#' + this.id + ' .bar').width( Math.min(95, Math.max(0, Math.round( (this.usage / this.quota) * 95))) );
 		$('#' + this.id + ' .summary').html( this.getSideText() );
 	}
 	
@@ -41,7 +41,7 @@ function Bucket(q, u, db, t) {
 	
 	//Returns usage as a percentage
 	this.getPercentage = function() {
-		return Math.round( (this.usage / this.quota) * 100); 
+		return Math.min(100, Math.max(0, Math.round( (this.usage / this.quota) * 100))); 
 	}
 	
 	//Returns usage as a percentage

@@ -59,10 +59,6 @@ var AAUM = function() {
 		System.Gadget.settingsUI = config.settingsUI;
 		System.Gadget.Flyout.file = config.flyoutFile;
 		
-		$('#usage_graph_link').click(function() {
-  			showFlyout();
-		});
-		
 		System.Gadget.Settings.writeString('authors', config.authors);
 		
 		displayError('no_cred', true);
@@ -97,20 +93,17 @@ var AAUM = function() {
 	
 	var showFlyout = function() {
 		
+		// If there is no usage data then don't show anything
+		if($(data.usageGraphData).length <=0 ){return;}
+		
 		if (System.Gadget.Flyout.show == false){
 			try {
 				System.Gadget.Flyout.show = true;
-				
-				System.Gadget.Flyout.onShow = function() {
-					//addContentToFlyout();
-				}
-	
-				System.Gadget.Flyout.onHide = function() {
-					//gSelectedIndex = -1 ;
-				}
 			}
 			catch(e){
-				throw new Error("AAUM.showFlyout(): Error showing flyout.");
+				if(debugMode) {
+					throw new Error("AAUM.showFlyout(): Error showing flyout.");
+				}
 			}
 		}
 	}
@@ -141,9 +134,6 @@ var AAUM = function() {
 				//check and compare the gadget version with the current online version
 				var parts1 = System.Gadget.version.split( "." );
 				var parts2 = json.version.split( "." );
-				/*if( parts1.length != parts2.length ){
-					   return false;
-				}*/
 				
 				for( var i = 0; i < parts1.length; i++ ) {
 					var v1 = parseInt( parts1[ i ] );
@@ -151,7 +141,10 @@ var AAUM = function() {
 				   	if( v1 < v2 ) {
 					   	displayError('blank', true, 'New Gadget Version Available <br /><a href="' + config.gadgetDownloadURL + '">Download Now</a>');
 						return;
-				   	}
+				   	} else if(v1 > v2) {
+						// The installed version is greater than the release version, probably unreleased or beta version
+						break;
+					}
 				}
 				loadXML();
 				
@@ -229,6 +222,8 @@ var AAUM = function() {
 				throw new Error("AAUM.parseXML() API Error: "+ $(xml).text());
 			}
 			
+			window.clearTimeout(updateTimemoutId);
+			updateTimemoutId = window.setTimeout(loadXML, config.updateIntervalPeriod * 60 * 1000);
 			return;
 		}
 
@@ -326,9 +321,9 @@ var AAUM = function() {
 											 //if it is the last day then show days remaining otherwise show hours remaining
 											 
 											 if( Math.ceil((this.quota - this.usage) / 24) > 1 ) {
-											 	return Math.ceil((this.quota - this.usage) / 24) + "d";
+											 	return Math.max(0, Math.ceil((this.quota - this.usage) / 24)) + "d";
 											 } else {
-												return Math.ceil(this.quota - this.usage) + "h";
+												return Math.max(0, Math.ceil(this.quota - this.usage)) + "h";
 											 }
 											};
 		daysBucket.repaint(); //repaint to update the side text
@@ -365,18 +360,25 @@ var AAUM = function() {
 		// Store Usage Information
 		//////////////////////////////
 		
-		data.usageGraphData = Array();
+		data.usageGraphData = new Object;
 		
 		$(account).children('DailySummary').children('Day').each( function(){
 																		   
-											 var buckets = Array();
 											 var date = Date.parse($(this).attr('date')).getTime();
 											 
 											 $(this).children('Bucket').each( function(){ 
-																						buckets.push( date, $(this).text() );
-																					   });
-											 
-											 data.usageGraphData.push(buckets);
+																				  if( !data.usageGraphData.hasOwnProperty($(this).attr('desc')) ) {
+																					  data.usageGraphData[$(this).attr('desc')] = new Object;
+																					  data.usageGraphData[$(this).attr('desc')].label = $(this).attr('desc');
+																					  data.usageGraphData[$(this).attr('desc')].color = "#0000FF";
+																					  data.usageGraphData[$(this).attr('desc')].data = Array();
+																					  
+																					  $('#'+$(this).attr('desc').toLowerCase().replace(/[^a-z0-9]/g, '-')).click(function(){
+																						  showFlyout();
+																					  }).css('cursor', 'pointer');
+																				  }
+																				  data.usageGraphData[$(this).attr('desc')].data.push(Array( date, $(this).text() ));
+																				 });
 											 });
 		
 		//////////////////////////////

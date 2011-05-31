@@ -204,3 +204,17 @@ body
 	letter-spacing: 1px;
 	color: white;
 }
+
+/*#toolbar {
+	position: absolute;
+	width: 127px;
+	height: 12px;
+	padding:0;
+	bottom:7px; 
+	text-align: center;
+	overflow: hidden;
+}
+
+#toolbar a {
+	cursor: pointer;
+}*/
